@@ -7,8 +7,12 @@
         v-on:changeTitleEvent="handleChangeTitle"
       
       />
-      <list-user v-bind:listUser="listUser"/>
+      <list-user v-bind:listUser="listUser"
+        v-on:deleteUserEvent="handleDeleteUser"
+      />
       <comp-footer v-bind:title="title"/>
+      <demo-ref />
+      <demo-slot />
     </div>
   </div>
 
@@ -17,6 +21,8 @@
 import CompHeader from './components/CompHeader.vue';
 import CompFooter from './components/CompFooter.vue';
 import ListUser from './components/ListUser.vue';
+import DemoRef from './components/DemoRef.vue';
+import DemoSlot from './components/DemoSlot.vue';
 
 export default {
   name: 'app',
@@ -35,12 +41,24 @@ export default {
   components: {
     CompHeader,
     CompFooter,
-    ListUser
+    ListUser,
+    DemoRef,
+    DemoSlot
 
   },
   methods: {
     handleChangeTitle(data){
       this.title = data.title;
+    },
+    handleDeleteUser(data){
+      var indexDelete = -1;
+      this.listUser.forEach((u, idx) => {
+        if(u.id === data.id){
+          indexDelete = idx;
+          // console.log('Index:', idx);
+          this.listUser.splice(idx, 1);
+        }
+      })
     }
   }
 }
